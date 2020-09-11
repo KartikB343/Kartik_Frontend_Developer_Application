@@ -1,69 +1,141 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Mutations Used :
 
-## Available Scripts
+----------------------------------------------------------------------------------
+1 Update Job Description
+----------------------------------------------------------------------------------
 
-In the project directory, you can run:
 
-### `yarn start`
+gql`
+  mutation UpdateJobInput($input: UpdateJobInput!) {
+    updateJob(input: $input) {
+        id,
+        description
+    }
+  }
+`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+mutation{
+   updateJob(input:{id:"1",description:"1"}, adminSecret:"admin") {
+    id,
+    description
+  }
+}
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+----------------------------------------------------------------------------------
+2 Post a Job
+----------------------------------------------------------------------------------
 
-### `yarn test`
+gql`mutation postJob($input: PostJobInput!) {
+    postJob(input: $input) {
+        id,
+        description
+    }
+  }
+`;
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+mutation{
+   postJob(input:{title:"",commitmentId:"", companyName:"",locationNames:"",userEmail:"",description:"",applyUrl:""}) {    
+    id,
+    description
+  }
+}
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+Query used :
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+----------------------------------------------------------------------------------
+For Searching Jobs
+----------------------------------------------------------------------------------
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`{
+  jobs {        
+    slug,
+    tags {
+      id,
+      name,              
+    }        
+  }
+ }`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+----------------------------------------------------------------------------------
+Job Feed Page / Loading Jobs
+----------------------------------------------------------------------------------
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+gql` 
+    {
+        jobs {
+          id
+          title
+          slug,
+          tags {
+            id,
+            name,      
+            createdAt,
+            updatedAt
+          }
+          company{
+            id,
+            name,
+            websiteUrl,
+            logoUrl,      
+            twitter,
+            createdAt,
+            updatedAt,
+            slug,
+            
+          }
+          cities {
+            id
+            name
+            slug
+            type
+          }
+          description
+          applyUrl
+          isPublished
+          isFeatured
+          locationNames
+          userEmail
+          postedAt
+          createdAt
+          updatedAt
+        }
+      }
+`);
 
-## Learn More
+----------------------------------------------------------------------------------
+Job DetailView Page
+----------------------------------------------------------------------------------
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`query JobInput($input: JobInput!) {
+        job(input: $input) {
+        id
+      title,
+      slug
+      company{
+        name
+        websiteUrl
+      }
+      description
+      applyUrl
+      isPublished
+      isFeatured
+      locationNames
+      userEmail
+      postedAt
+      createdAt
+      updatedAt
+      tags{
+        name
+      }
+      }
+      }
+    `, { variables: { input: { 'companySlug': `${companySlug}`, 'jobSlug': 'full-stack-javascript-engineer' } } });
+    
+----------------------------------------------------------------------------------    
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-"# Kartik_Frontend_Developer_Application" 
